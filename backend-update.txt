@@ -1,0 +1,45 @@
+ACTUALIZACIÓN PARA TU BACKEND - ReservaController.java
+
+Agrega este método a tu ReservaController:
+
+@GetMapping("/ruta/{rutaId}")
+public List<Reserva> obtenerReservasPorRuta(@PathVariable Long rutaId) {
+    return reservaRepository.findByRutaId(rutaId);
+}
+
+Tu ReservaController completo debería verse así:
+
+package com.proyecto.backend.controller;
+
+import com.proyecto.backend.model.Reserva;
+import com.proyecto.backend.model.Ruta;
+import com.proyecto.backend.repository.ReservaRepository;
+import com.proyecto.backend.repository.RutaRepository;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
+
+@RestController
+@RequestMapping("/api/reservas")
+public class ReservaController {
+
+    @Autowired
+    private ReservaRepository reservaRepository;
+
+    @Autowired
+    private RutaRepository rutaRepository;
+
+    @PostMapping
+    public Reserva reservarRuta(@RequestBody Reserva reserva) {
+        Ruta ruta = rutaRepository.findById(reserva.getRuta().getId())
+                .orElseThrow(() -> new RuntimeException("Ruta no encontrada"));
+        reserva.setRuta(ruta);
+        return reservaRepository.save(reserva);
+    }
+
+    @GetMapping("/ruta/{rutaId}")
+    public List<Reserva> obtenerReservasPorRuta(@PathVariable Long rutaId) {
+        return reservaRepository.findByRutaId(rutaId);
+    }
+}
