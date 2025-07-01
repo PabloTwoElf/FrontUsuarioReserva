@@ -1,7 +1,7 @@
-import RutaManager from './components/RutaManager';
+import RutaManagerMejorado from './components/RutaManagerMejorado';
 
 function App() {
-  return <RutaManager />;
+  return <RutaManagerMejorado />;
 }
 
 export default App;
